@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galería del Balneario</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="fondo.js" defer></script>
+  <style>
+    /* Estilos para el visor */
+    .galeria-selector {
+      margin: 2rem auto;
+     
+    }
+
+    select {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+    }
+
+    .visor {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .visor img {
+      max-width: 80%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      display: none;
+    }
+
+    .visor p {
+      margin-top: 0.8rem;
+      font-style: italic;
+      color: #eee;
+    }
+
+    /* Botón de mostrar */
+    .btn-ver {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #00f5ff;
+      color: #000;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="animated-background">
+    <div class="gradient-layer"></div>
+    <div class="wave-layer"></div>
+    <div class="wave-layer"></div>
+    <div class="wave-layer"></div>
+  </div>
+  <aside>
+    <h1>BALNEARIO UNCIA</h1>
+    <nav>
+      <a href="inicio.html">Inicio</a>
+      <a href="sobre.html">Sobre el balneario</a>
+      <a href="galeria.html">Galería</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="como-llegar.html">Cómo llegar</a>
+      <a href="contactos.html">Contactos</a>
+    </nav>
+  </aside>
+
+  <div class="contenido-principal">
+    <header>
+      GALERÍA DE VISITANTES
+    </header>
+
+    <main>
+      <!-- Selector -->
+      <div class="galeria-selector">
+        <label for="fotoSelect">Elige una foto:</label>
+        <select id="fotoSelect">
+          <option value="turismo2.jpeg" data-text='"Una experiencia inolvidable en aguas termales. ¡Volveré!"'>imagen 1</option>
+          <option value="parqueo.jpeg" data-text='"Relajación total. Perfecto para escapar del estrés."'>imagen 2</option>
+          <option value="parqueo1.jpeg" data-text='"Hermoso lugar rodeado de naturaleza y tranquilidad."'>imagen 3</option>
+          <option value="baños individuales.jpeg" data-text='"Muy recomendado para toda la familia."'>imagen 4</option>
+          <option value="sauna.jpeg" data-text='"Un paraíso escondido en el corazón de Potosí."'>imagen 5</option>
+          <option value="sauna1.jpeg" data-text='"Las aguas termales tienen un efecto mágico en el cuerpo."'>imagen 6</option>
+        </select>
+        <br>
+        <button class="btn-ver" onclick="mostrarFoto()">Ver Foto</button>
+      </div>
+
+      <!-- Visor -->
+      <div class="visor">
+        <img id="fotoVisor" src="" alt="Foto seleccionada">
+        <p id="textoVisor"></p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function mostrarFoto() {
+      const select = document.getElementById('fotoSelect');
+      const foto = document.getElementById('fotoVisor');
+      const texto = document.getElementById('textoVisor');
+      
+      const archivo = select.value;
+      const comentario = select.options[select.selectedIndex].getAttribute('data-text');
+
+      foto.src = "/img/" + archivo;
+      foto.style.display = "block";
+      texto.textContent = comentario;
+    }
+  </script>
+</body>
+</html>

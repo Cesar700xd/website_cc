@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contactos - Aguas Termales de Uncía</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="fondo.js" defer></script>
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="animated-background">
+    <div class="gradient-layer"></div>
+    <div class="wave-layer"></div>
+    <div class="wave-layer"></div>
+    <div class="wave-layer"></div>
+  </div>
+
+  <!-- Texto opcional -->
+  <div class="demo-text">
+    AGUAS TERMALES<br>
+    <span style="font-size: 1.5rem; opacity: 0.7;">DE UNCÍA</span>
+  </div>
+
+  <!-- Barra lateral / menú -->
+  <aside>
+    <h1>BALNEARIO UNCIA</h1>
+    <nav>
+      <a href="inicio.html" class="activo">Inicio</a>
+      <a href="sobre.html">Sobre el balneario</a>
+      <a href="galeria.html">Galería</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="como-llegar.html">Cómo llegar</a>
+      <a href="contactos.html">Contactos</a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <div class="contenido-principal">
+    <a class="btn-volver" href="inicio.html">Volver</a>
+    <header>CONTACTOS</header>
+    <main>
+      <section class="info-contacto">
+        <p><strong>Dirección:</strong> Balneario de Aguas Termales, Uncía, Potosí, Bolivia</p>
+        <p><strong>Teléfonos:</strong> +591 72800000 | +591 76450000</p>
+        <p><strong>Correo electrónico:</strong> contacto@aguastermalesuncia.bo</p>
+      </section>
+
+      <section class="formulario-contacto">
+        <h2>Contáctanos</h2>
+        <form>
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" required>
+
+          <label for="email">Correo electrónico:</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="mensaje">Mensaje:</label>
+          <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+
+          <button type="submit">Enviar mensaje</button>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

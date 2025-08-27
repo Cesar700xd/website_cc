@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Servicios - Balneario Uncía</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="fondo.js" defer></script>
+
+  <style>
+    /* Contenedor de las cartas */
+    .grid-servicios {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+      perspective: 1000px; /* Para efecto 3D */
+    }
+
+    /* Cada carta */
+    .servicio {
+      width: 100%;
+      height: 320px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      cursor: pointer;
+    }
+
+    .servicio:hover {
+      transform: rotateY(180deg);
+    }
+
+    /* Lados de la carta */
+    .servicio-front, .servicio-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+
+    /* Frente */
+    .servicio-front {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .servicio-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .servicio-front h3 {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      background: rgba(0,0,0,0.6);
+      padding: 0.5rem;
+      color: #fff;
+      font-size: 1.2rem;
+    }
+
+    /* Reverso */
+    .servicio-back {
+      background: linear-gradient(135deg, #00f5ff55, #9d00ff55);
+      color: #fff;
+      transform: rotateY(180deg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .servicio-back h3 {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      color: #00f5ff;
+    }
+
+    .servicio-back p {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fondo animado -->
+  <div class="animated-background">
+    <div class="gradient-layer"></div>
+    <div class="wave-layer"></div>
+    <div class="wave-layer"></div>
+    <div class="wave-layer"></div>
+  </div>
+
+  <aside>
+    <h1>BALNEARIO UNCIA</h1>
+    <nav>
+      <a href="inicio.html">Inicio</a>
+      <a href="sobre.html">Sobre el balneario</a>
+      <a href="galeria.html">Galería</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="como-llegar.html">Cómo llegar</a>
+      <a href="contactos.html">Contactos</a>
+    </nav>
+  </aside>
+
+  <div class="contenido-principal">
+    <header>
+      SERVICIOS DEL BALNEARIO
+    </header>
+
+    <main class="servicios">
+      <h2>¿Qué ofrecemos?</h2>
+      <div class="grid-servicios">
+
+        <!-- Carta 1 -->
+        <div class="servicio">
+          <div class="servicio-front">
+            <img src="/img/piscina1.jpeg" alt="Piscinas termales">
+            <h3>Piscinas Termales</h3>
+          </div>
+          <div class="servicio-back">
+            <h3>Piscinas Termales</h3>
+            <p>Aguas calientes ricas en minerales, ideales para relajación y salud corporal.</p>
+          </div>
+        </div>
+
+        <!-- Carta 2 -->
+        <div class="servicio">
+          <div class="servicio-front">
+            <img src="/img/snack.jpeg" alt="Cafetería">
+            <h3>Cafetería & Snacks</h3>
+          </div>
+          <div class="servicio-back">
+            <h3>Cafetería & Snacks</h3>
+            <p>Área de descanso con bebidas calientes, jugos naturales y refrigerios locales.</p>
+          </div>
+        </div>
+
+        <!-- Carta 3 -->
+        <div class="servicio">
+          <div class="servicio-front">
+            <img src="/img/piscina2.jpeg" alt="Vestidores y duchas">
+            <h3>Vestidores y Duchas</h3>
+          </div>
+          <div class="servicio-back">
+            <h3>Vestidores y Duchas</h3>
+            <p>Espacios limpios, seguros y cómodos para cambiarse antes y después del baño.</p>
+          </div>
+        </div>
+
+        <!-- Carta 4 -->
+        <div class="servicio">
+          <div class="servicio-front">
+            <img src="/img/parada de autos.jpeg" alt="Parqueo">
+            <h3>Parqueo Privado</h3>
+          </div>
+          <div class="servicio-back">
+            <h3>Parqueo Privado</h3>
+            <p>Zona segura para dejar vehículos, con vigilancia durante el día.</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

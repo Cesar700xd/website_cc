@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="fondo.js" defer></script>
+
+  <style>
+    canvas.fondo-3d {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 40vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body class="inicio">
+  <!-- Fondo animado -->
+  <div class="animated-background">
+    <div class="gradient-layer"></div>
+    <div class="wave-layer"></div>
+    <div class="wave-layer"></div>
+    <div class="wave-layer"></div>
+  </div>
+  <!-- Fondo 3D -->
+  <canvas class="fondo-3d"></canvas>
+
+  <!-- Barra lateral -->
+  <aside>
+  <h1>BALNEARIO UNCIA</h1>
+  <nav>
+    <a href="inicio.html" class="activo">Inicio</a>
+    <a href="sobre.html">Sobre el balneario</a>
+    <a href="galeria.html">Galería</a>
+    <a href="servicios.html">Servicios</a>
+    <a href="como-llegar.html">Cómo llegar</a>
+    <a href="contactos.html">Contactos</a>
+  </nav>
+</aside>
+
+
+  <div class="contenido-principal">
+    <header>
+      BIENVENIDO AGUAS TERMALES DE UNCÍA
+    </header>
+    <main>
+      <h2>¿Quiénes somos?</h2>
+      <p>
+        Somos un balneario natural ubicado en Uncía, Potosí, que ofrece un espacio de descanso, salud y bienestar en medio de un entorno natural. Nuestras aguas termales son reconocidas por sus propiedades terapéuticas y relajantes, ideales para el turismo de salud y recreación familiar.
+      </p>
+
+      <h2>Nuestros servicios</h2>
+      <ul>
+        <li>1.- Piscinas termales mixto</li>
+        <li>2.- Saunas, familiar e indivuales naturales</li>
+        <li>3.- Áreas verdes y zonas de descanso</li>
+        <li>4.- Parqueo y vestuarios </li>
+      </ul>
+
+      <div class="volver-container">
+        <a href="index.html" class="btn-volver">← Volver al inicio</a>
+      </div>
+    </main>
+  </div>
+
+<!-- Three.js -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+  <script>
+    let scene, camera, renderer, controls;
+ 
+    // Función para crear planos (paredes, suelo, etc.)
+    function crearPlano(x, y, ancho, alto, color, z = 0) {
+      const geo = new THREE.PlaneGeometry(ancho, alto);
+      const mat = new THREE.MeshStandardMaterial({ color, side: THREE.DoubleSide });
+      const plano = new THREE.Mesh(geo, mat);
+      plano.position.set(x, y, z);
+      scene.add(plano);
+    }
+
+    // funcion crear primer triangulo
+function crearTrianguloConGrosor(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1.5);        // vértice superior
+  shape.lineTo(-3, 0);       // vértice inferior izquierdo
+  shape.lineTo(3, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1.5);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -3,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+    //segundo triangulo
+    function crearTrianguloConGrosor1(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 3.5);        // vértice superior
+  shape.lineTo(-7, 0);       // vértice inferior izquierdo
+  shape.lineTo(6, 0);        // vértice inferior derecho
+  shape.lineTo(0, 3.5);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -15,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  
+    //tercer triangulo pequeño
+    function crearTrianguloConGrosor2(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(-2, 0);       // vértice inferior izquierdo
+  shape.lineTo(0.1, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -15,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  // funcion crear cuarto triangulo
+function crearTrianguloConGrosor3(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(0, 0);       // vértice inferior izquierdo
+  shape.lineTo(4, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -15,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  // funcion crear quinto triangulo
+function crearTrianguloConGrosor4(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(-5, 0);       // vértice inferior izquierdo
+  shape.lineTo(0, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -3,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  // funcion crear sexto triangulo
+function crearTrianguloConGrosor5(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(-1.5, 0);       // vértice inferior izquierdo
+  shape.lineTo(2, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -13,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  // funcion crear septimo triangulo
+function crearTrianguloConGrosor6(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(-1.5, 0);       // vértice inferior izquierdo
+  shape.lineTo(2, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -3,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  // funcion crear octavo triangulo
+function crearTrianguloConGrosor8(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(-2, 0);       // vértice inferior izquierdo
+  shape.lineTo(3.5, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -3,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  //funcion crear noveno triangulo
+function crearTrianguloConGrosor9(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(-2, 0);       // vértice inferior izquierdo
+  shape.lineTo(2, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -5,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  //funcion crear decimo triangulo
+function crearTrianguloConGrosor10(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 2.5);        // vértice superior
+  shape.lineTo(-5.5, 0);       // vértice inferior izquierdo
+  shape.lineTo(5.5, 0);        // vértice inferior derecho
+  shape.lineTo(0, 2.5);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -5,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  //funcion crear decimo primer triangulo
+function crearTrianguloConGrosor11(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(-2.5, 0);       // vértice inferior izquierdo
+  shape.lineTo(2, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -6,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+  //funcion crear decimo segundo triangulo
+function crearTrianguloConGrosor12(x, y, z, colorHex) {
+  // 1. Definir el shape del triángulo (forma 2D)
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 1);        // vértice superior
+  shape.lineTo(-3, 0);       // vértice inferior izquierdo
+  shape.lineTo(3, 0);        // vértice inferior derecho
+  shape.lineTo(0, 1);        // cerrar el triángulo
+
+  // 2. Configurar la extrusión para dar grosor
+  const extrudeSettings = {
+    depth: -5,                 // grosor en Z
+    bevelEnabled: false
+  };
+
+  // 3. Crear geometría 3D extruida
+  const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+  const material = new THREE.MeshStandardMaterial({ color: colorHex });
+  const triangulo3D = new THREE.Mesh(geometry, material);
+
+  // 4. Posicionar el triángulo
+  triangulo3D.position.set(x, y, z);
+  scene.add(triangulo3D);
+}
+
+    function init() {
+      // Crear la escena
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xaadfff); // color de fondo tipo cielo
+
+      // Crear la cámara (posición z lejos para ver todo)
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(7, 10, 7); // vista en ángulo
+
+      // Crear el renderizador (dibujador 3D)
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+
+      // Controles de cámara con ratón (rotación, zoom, etc.)
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;        // suaviza el movimiento
+      controls.autoRotate = true;           // rotación automática
+      controls.autoRotateSpeed = 0.5;       // velocidad de rotación
+
+      // Luz ambiental general
+      scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+
+      // Luz direccional como si fuera el sol
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+      dirLight.position.set(5, 10, 7); // posición desde arriba
+      scene.add(dirLight);
+
+      // Suelo verde
+      const suelo = new THREE.Mesh(
+        new THREE.PlaneGeometry(60, 80),
+        new THREE.MeshStandardMaterial({ color: 0x669966 })
+      );
+      suelo.rotation.x = -Math.PI / 2; // rotado horizontalmente
+      suelo.position.set(0, -1, -30); // centrado más atrás
+      scene.add(suelo);
+
+      // Edificio central del balneario
+      const edificioGeo = new THREE.BoxGeometry(6, 3, 3);
+      const mat = new THREE.MeshStandardMaterial({ color: 0x00fff2 });
+      const edificio = new THREE.Mesh(edificioGeo, mat);
+      edificio.position.set(0, 0.5, 0); // centrado
+      scene.add(edificio);
+      
+      // Edificio central atras del balneario piscina
+      const edificioGeoatras = new THREE.BoxGeometry(15, 3, 15);
+      const mate = new THREE.MeshStandardMaterial({ color: 0x00fff2 });
+      const edificio2 = new THREE.Mesh(edificioGeoatras, mate);
+      edificio2.position.set(-1.5, 0.5, -9); // centrado
+      scene.add(edificio2);
+      
+      // parte central de arriba atras del balneario de la piscina
+      const edificioGeoatrasSup = new THREE.BoxGeometry(13, 1, 15);
+      const mate2 = new THREE.MeshStandardMaterial({ color: 0x00fff2 });
+      const edificioSup = new THREE.Mesh(edificioGeoatrasSup, mate2);
+      edificioSup.position.set(-0.5,2.5 , -9); // centrado
+      scene.add(edificioSup);
+      
+      // Edificio central piso 2 del balneario
+      const edificioGeopiso2 = new THREE.BoxGeometry(6, 3, 3);
+      const mater = new THREE.MeshStandardMaterial({ color: 0x00fff2 });
+      const edificio3 = new THREE.Mesh(edificioGeopiso2, mater);
+      edificio3.position.set(0, 3, 0); // centrado
+      scene.add(edificio3);
+
+      //edificio central balnerio (estructura a la izquierda)
+      const edificioSauna = new THREE.BoxGeometry(3, 3, 3);
+      const materia = new THREE.MeshStandardMaterial({ color: 0x00fff2 });
+      const sauna = new THREE.Mesh(edificioSauna, materia);
+      sauna.position.set(-4.5, 0.5, 0);
+      scene.add(sauna);
+
+      //edificio central balneario (estructura a la derecha)
+      const edificioSaunad = new THREE.BoxGeometry(3, 3, 3);
+      const material = new THREE.MeshStandardMaterial({ color: 0x00fff2 });
+      const sauna2 = new THREE.Mesh(edificioSaunad, material);
+      sauna2.position.set(4.5, 0.5, 0);
+      scene.add(sauna2);
+      
+      
+      //pilar ventanilla balneario (estructura a la derecha)
+      const pilarventanilla = new THREE.BoxGeometry(0.2, 3, 0.2);
+      const materialp = new THREE.MeshStandardMaterial({ color: 0x00fff2 });
+      const pilar = new THREE.Mesh(pilarventanilla, materialp);
+      pilar.position.set(9.9, 0.5, -1.6);
+      scene.add(pilar);
+      // edificio de la ventanilla(estructura a la derecha)
+      const edificio4 = new THREE.BoxGeometry(4, 3, 13);
+      const materiald = new THREE.MeshStandardMaterial({ color: 0x00fff2 });
+      const casaventanilla = new THREE.Mesh(edificio4, materiald);
+      casaventanilla.position.set(8, 0.5, -10);
+      scene.add(casaventanilla);
+      
+      //estructura Sauna al lado de la ventanilla(estructura a la derecha)
+      const edificioSauna12 = new THREE.BoxGeometry(5, 3, 3);
+      const materials = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+      const sauna12 = new THREE.Mesh(edificioSauna12, materials);
+      sauna12.position.set(15.5, 0.5, -2);
+      scene.add(sauna12);
+     
+      
+      // edificio individuales (estructura a la derecha)
+      const individuales = new THREE.BoxGeometry(3.5, 3, 10);
+      const materialdin = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+      const individual = new THREE.Mesh(individuales, materialdin);
+      individual.position.set(16.25, 0.5, -8.5);
+      scene.add(individual);
+      
+     
+      // edificio saunas (estructura a la derecha al fondo)
+      const edificioSaunas = new THREE.BoxGeometry(7, 3, 3);
+      const materialdsa = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+      const edSauna = new THREE.Mesh(edificioSaunas, materialdsa);
+      edSauna.position.set(18, 0.5, -15);
+      scene.add(edSauna);
+      
+      // edificio saunas (estructura a la derecha al fondo)
+      const edificioSaunas2 = new THREE.BoxGeometry(4, 3, 3);
+      const materialds1 = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+      const edSauna2 = new THREE.Mesh(edificioSaunas2, materialds1);
+      edSauna2.position.set(19.5, 0.5, -21);
+      scene.add(edSauna2);
+      
+      // edificio familiares (estructura a la derecha)
+      const ediFamiliar = new THREE.BoxGeometry(4, 3, 5);
+      const materialfam = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+      const familiar = new THREE.Mesh(ediFamiliar, materialfam);
+      familiar.position.set(18, 0.5, -25);
+      scene.add(familiar);
+      
+      // edificiocolorados (estructura a la derecha al fondo)
+      const ediColorados = new THREE.BoxGeometry(11, 3, 5);
+      const materialcol = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+      const colorados = new THREE.Mesh(ediColorados, materialcol);
+      colorados.position.set(13, 0.5, -30);
+      scene.add(colorados);
+      
+      // edificio saunas al lado del colorado (estructura a la derecha al fondo)
+      const ediSaunas = new THREE.BoxGeometry(6, 3, 5);
+      const materialSau1 = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+      const coSauna = new THREE.Mesh(ediSaunas, materialSau1);
+      coSauna.position.set(0, 0.5, -33);
+      scene.add(coSauna);
+      
+      // edificio familiar al lado del colorado (estructura a la derecha al fondo)
+      const edifamcol = new THREE.BoxGeometry(4.5, 3, 6);
+      const materialfam1 = new THREE.MeshStandardMaterial({ color: 0x8b4513 });
+      const cofamiliar = new THREE.Mesh(edifamcol, materialfam1);
+      cofamiliar.position.set(13, 0.5, -35.5);
+      scene.add(cofamiliar);
+
+      // rotonda (cilindro marrón)
+      const rotonda = new THREE.Mesh(
+        new THREE.CylinderGeometry(3.5, 3.5, 1, 32),
+        new THREE.MeshStandardMaterial({ color: 0x964B00 })
+      );
+      rotonda.position.set(-4, -0.5, -24); // frente al edificio
+      scene.add(rotonda);
+
+      
+// Llamada: crear el triángulo con grosor
+crearTrianguloConGrosor(0, 4.51, 1.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor1(0, 3.05, -1.49, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor2(-7, 2.05, -1.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor3(6.02, 2.05, -1.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor4(18, 2.05, -0.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor5(16, 2.05, -3.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor6(19.5, 2.05, -13.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor8(18, 2.05, -19.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor9(18, 2.05, -22.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor10(13, 2.05, -27.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor11(13.3, 2.05, -32.5, 0x00ff12);  // posición y color como el edificio
+crearTrianguloConGrosor12(0, 2.05, -30.5, 0x00ff12);  // posición y color como el edificio
+
+      // Ventanas del edificio principal
+      const ventana = new THREE.BoxGeometry(0.6, 0.8, 0.1);
+      const matVentana = new THREE.MeshStandardMaterial({ color: 0x66ccff });
+      [-1, 0, 1].forEach(x => {
+        const win = new THREE.Mesh(ventana, matVentana);
+        win.position.set(x, 1.5, 1.55); // sobre la fachada frontal
+        scene.add(win);
+      });
+
+      // Redimensionar la escena si cambia el tamaño de la ventana
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update(); // actualiza la rotación automática o con el mouse
+      renderer.render(scene, camera); // dibuja la escena
+    }
+
+    init();     // Inicializa la escena
+    animate();  // Empieza la animación
+  </script>
+
+</body>
+</html>
